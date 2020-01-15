@@ -21,11 +21,14 @@ namespace OrderFoodCore3.Pages.Restaurants
             this.restaurantData = restaurantData;
         }
 
-        public void OnGet()
+        public void OnGet(string searchTerm)
         {
+            //HttpContext.Request.Query: information about HTTP transaction
+
             //Message = "Hello World!";
             Message = config["Message"];
-            Restaurants = restaurantData.GetAll();
+            //Restaurants = restaurantData.GetAll();
+            Restaurants = restaurantData.GetRestaurantsByName(searchTerm);
         }
     }
 }
