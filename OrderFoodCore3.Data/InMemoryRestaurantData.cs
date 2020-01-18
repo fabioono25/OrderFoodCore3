@@ -53,6 +53,11 @@ namespace OrderFoodCore3.Data
             return restaurants.SingleOrDefault(r => r.Id == id);
         }
 
+        public int GetCountOfRestaurants()
+        {
+            return restaurants.Count;
+        }
+
         public IEnumerable<Restaurant> GetRestaurantsByName(string name)
         {
             return from r in restaurants

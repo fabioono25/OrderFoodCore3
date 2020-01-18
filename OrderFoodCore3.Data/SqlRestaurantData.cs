@@ -46,6 +46,11 @@ namespace OrderFoodCore3.Data
             return db.Restaurants.Find(id);
         }
 
+        public int GetCountOfRestaurants()
+        {
+            return db.Restaurants.Count(); //it's good to cache this result
+        }
+
         public IEnumerable<Restaurant> GetRestaurantsByName(string name)
         {
             var query = from r in db.Restaurants
