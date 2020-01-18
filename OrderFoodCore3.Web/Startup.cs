@@ -28,6 +28,8 @@ namespace OrderFoodCore3
                 options.UseSqlServer(Configuration.GetConnectionString("OdeToFoodDb"));
             });
 
+            services.AddScoped<IRestaurantData, SqlRestaurantData>();
+
 #if DEBUG
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
 #endif
