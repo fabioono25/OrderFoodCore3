@@ -13,7 +13,8 @@ namespace OrderFoodCore3
 
         public IRestaurantData restaurantData { get; }
         
-        public Restaurant Restaurant { get; set; }
+        [BindProperty] //now it's input and output
+        public Restaurant Restaurant { get; set; } //output
         public IEnumerable<SelectListItem> Cuisines { get; set; }
 
         public EditModel(IRestaurantData restaurantData,
@@ -32,6 +33,20 @@ namespace OrderFoodCore3
             if (Restaurant == null)
                 return RedirectToPage("./NotFound");
 
+            return Page();
+        }
+
+        public IActionResult OnPost()
+        {
+            //to use the data annotations we added in Restaurant class
+            if (ModelState.IsValid)
+            {
+                restaurantData.Update(Restaurant);
+                restaurantData.Commit();                
+            }
+
+            Cuisines = htmlHelper.GetEnumSelectList<CuisineType>();
+            
             return Page();
         }
     }
