@@ -42,7 +42,8 @@ namespace OrderFoodCore3
             if (ModelState.IsValid)
             {
                 restaurantData.Update(Restaurant);
-                restaurantData.Commit();                
+                restaurantData.Commit();
+                return RedirectToPage("./Detail", new { restaurantId = Restaurant.Id });
             }
 
             Cuisines = htmlHelper.GetEnumSelectList<CuisineType>();
