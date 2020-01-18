@@ -9,6 +9,8 @@ namespace OrderFoodCore3
 {
     public class Startup
     {
+        public IWebHostEnvironment Env { get; set; }
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -20,6 +22,10 @@ namespace OrderFoodCore3
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IRestaurantData, InMemoryRestaurantData>();
+
+#if DEBUG
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+#endif
 
             services.AddRazorPages();
         }
