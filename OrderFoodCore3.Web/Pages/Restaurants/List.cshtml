@@ -9,8 +9,8 @@
 <form method="get">
     <div class="form-group">
         <div class="input-group">
-            <input type="search" class="form-control" 
-                   value="" name="searchTerm"/>
+            <input type="search" class="form-control"
+                   value="" name="searchTerm" />
             <span class="input-group-btn">
                 <button class="btn btn-default">
                     <i class="fa fa-search"></i>
@@ -41,6 +41,10 @@
                    asp-page="./Edit" asp-route-restaurantId="@restaurant.Id">
                     <i class="fa fa-edit"></i>
                 </a>
+                <a class="btn btn-lg"
+                   asp-page="./Delete" asp-route-restaurantId="@restaurant.Id">
+                    <i class="fa fa-trash"></i>
+                </a>
             </td>
         </tr>
     }
@@ -48,7 +52,9 @@
 
 <a asp-page="./Edit" class="btn btn-primary">Add New</a>
 
-<div>
-    @Model.Message
-</div>
+@section footer {
+    <div>
+        @Model.Message
+    </div>
+}
 
