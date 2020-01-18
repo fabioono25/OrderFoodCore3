@@ -16,20 +16,25 @@ namespace OrderFoodCore3
         [BindProperty] //now it's input and output
         public Restaurant Restaurant { get; set; } //output
         public IEnumerable<SelectListItem> Cuisines { get; set; }
-
+        
         public EditModel(IRestaurantData restaurantData,
                          IHtmlHelper htmlHelper)
         {
             this.restaurantData = restaurantData;
             this.htmlHelper = htmlHelper;
+
+            
         }
                
-        public IActionResult OnGet(int restaurantId)
+        public IActionResult OnGet(int? restaurantId)
         {
             Cuisines = htmlHelper.GetEnumSelectList<CuisineType>();
 
-            Restaurant = restaurantData.GetById(restaurantId);
-
+            if (restaurantId.HasValue)
+                Restaurant = restaurantData.GetById(restaurantId.Value);
+            else
+                Restaurant = new Restaurant();
+                
             if (Restaurant == null)
                 return RedirectToPage("./NotFound");
 
@@ -39,16 +44,22 @@ namespace OrderFoodCore3
         public IActionResult OnPost()
         {
             //to use the data annotations we added in Restaurant class
-            if (ModelState.IsValid)
-            {
-                restaurantData.Update(Restaurant);
-                restaurantData.Commit();
-                return RedirectToPage("./Detail", new { restaurantId = Restaurant.Id });
+            if (!ModelState.IsValid)
+            {   Cuisines = htmlHelper.GetEnumSelectList<CuisineType>();
+                return Page();
             }
 
-            Cuisines = htmlHelper.GetEnumSelectList<CuisineType>();
-            
-            return Page();
+            if (Restaurant.Id > 0)
+                restaurantData.Update(Restaurant);
+            else
+                restaurantData.Add(Restaurant);
+
+            restaurantData.Commit();
+
+            //dictionary of key/value - after use will disapear
+            TempData["Message"] = "Restaurant saved!";
+
+            return RedirectToPage("./Detail", new { restaurantId = Restaurant.Id });
         }
     }
 }
