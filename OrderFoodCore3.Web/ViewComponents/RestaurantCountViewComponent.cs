@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OrderFoodCore3.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace OrderFoodCore3.Web.ViewComponents
 {
