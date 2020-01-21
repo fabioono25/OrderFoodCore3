@@ -35,6 +35,7 @@ namespace OrderFoodCore3
 #endif
 
             services.AddRazorPages();
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -53,7 +54,7 @@ namespace OrderFoodCore3
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseNodeModules();
             app.UseRouting();
 
             app.UseAuthorization();
@@ -61,6 +62,7 @@ namespace OrderFoodCore3
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
         }
     }
