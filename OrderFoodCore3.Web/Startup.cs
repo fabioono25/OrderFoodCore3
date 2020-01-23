@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OrderFoodCore3.Data;
+using System;
 
 namespace OrderFoodCore3
 {
@@ -52,11 +54,14 @@ namespace OrderFoodCore3
                 app.UseHsts();
             }
 
+            //custom middleware
+            app.Use(SayHelloMiddleware);
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseNodeModules();
             app.UseRouting();
-
+            
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -64,6 +69,24 @@ namespace OrderFoodCore3
                 endpoints.MapRazorPages();
                 endpoints.MapControllers();
             });
+        }
+
+        //it'll handle the HttpRequest
+        private RequestDelegate SayHelloMiddleware(RequestDelegate next)
+        {
+            return async ctx =>
+            {
+                if (ctx.Request.Path.StartsWithSegments("/hello"))
+                {
+                    await ctx.Response.WriteAsync("Hello World!!!");
+                }
+                else
+                {
+                    await next(ctx);
+
+                    //if (ctx.Response.StatusCode) - verify if everything is ok
+                }
+            };
         }
     }
 }
